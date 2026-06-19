@@ -1,0 +1,47 @@
+# === Python ===
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+*.egg
+
+# === Virtual Environment ===
+venv/
+.venv/
+env/
+
+# === Claude Code / Agent ===
+.agents/
+.claude/
+skills-lock.json
+
+# === Backend: downloaded resources (pulled from CDN at startup) ===
+backend/data/
+
+# === waves_build: compiled .pyd modules (pulled from CDN at startup) ===
+backend/core/waves_build/
+backend/core/map/waves_build/
+
+# === Example (original plugin reference, not part of this project) ===
+example/
+
+# === API documentation ===
+api-docs/
+
+# === IDE ===
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# === OS ===
+Thumbs.db
+.DS_Store
+Desktop.ini
+
+# === Environment / Secrets ===
+.env
+.env.local

@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>登录</title>
+  <link rel="icon" href="https://web-static.kurobbs.com/resource/prod/icon.ico" type="image/x-icon">
+  <script src="https://static.geetest.com/v4/gt4.js"></script>
+  <script src="https://apps.bdimg.com/libs/jquery/1.6.4/jquery.min.js"></script>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Microsoft YaHei', 'Noto Sans CJK JP', 'Noto Sans CJK KR', sans-serif;
+    }
+
+    body {
+      background-image: url('https://prod-alicdn-community.kurobbs.com/forum/465dcb694966492aba4d4982c47f0e8520240914.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: inherit;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      filter: blur(8px);
+      z-index: -1;
+    }
+
+    .login-container {
+      background-color: rgba(255, 255, 255, 0.2);
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      width: 320px;
+      transition: all 0.3s ease;
+    }
+
+    .login-container:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.45);
+    }
+
+    .login-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 2rem;
+      justify-content: space-between;
+    }
+
+    .banner {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin-right: 0.5rem;
+    }
+
+    .banner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .banner-text {
+      flex: 1;
+      padding-right: 1rem;
+      margin-left: 0.5rem;
+    }
+
+    .welcome-text {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.25rem;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    .logo-text {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.25rem;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    .kurobbs-text {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #e6e6e6;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    .input-group {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: #fff;
+      font-weight: 500;
+    }
+
+    input[type="email"], input[type="password"], input[type="text"] {
+      width: 100%;
+      padding: 0.75rem;
+      border: none;
+      border-radius: 8px;
+      box-sizing: border-box;
+      font-size: 16px;
+      background-color: rgba(255, 255, 255, 0.9);
+      transition: all 0.3s ease;
+    }
+
+    input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.6);
+    }
+
+    .verification-group {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .verification-group input {
+      flex-grow: 1;
+    }
+
+    button {
+      width: 100%;
+      padding: 0.75rem;
+      background-color: #4a90e2;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    button:hover {
+      background-color: #357abd;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 300px;
+      border-radius: 10px;
+      text-align: center;
+      transform: scale(0.7);
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .modal.show {
+      display: block;
+      opacity: 1;
+    }
+
+    .modal.show .modal-content {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: #000;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .user-id-display {
+      text-align: right;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.8em;
+      margin-bottom: 10px;
+      transition: opacity 0.3s ease;
+    }
+
+    .user-id-display:hover {
+      opacity: 1;
+    }
+
+    .countdown {
+      font-size: 0.9em;
+      color: #666;
+      margin-top: 10px;
+    }
+
+    .redirect-button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      background-color: #4a90e2;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .redirect-button:hover {
+      background-color: #357abd;
+    }
+
+    .region-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .region-card {
+      background-color: rgba(255, 255, 255, 0.85);
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .region-card:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.18);
+    }
+
+    .region-card .role-meta { display: flex; flex-direction: column; }
+    .region-card .role-name { font-weight: 600; color: #2b3a55; }
+    .region-card .role-detail { color: #6b7280; font-size: 0.8rem; }
+    .region-card .lv-badge {
+      background-color: #4a90e2;
+      color: white;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+
+    .region-hint {
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 0.82rem;
+      line-height: 1.4;
+      margin-bottom: 0.75rem;
+    }
+  </style>
+</head>
+<body>
+<div class="login-container">
+  <div class="login-header">
+    <div class="banner-text">
+      <div class="welcome-text">欢迎登录</div>
+      <div class="logo-text">WuwaWebTool</div>
+      <div class="kurobbs-text">邮箱登录</div>
+    </div>
+    <div class="banner">
+      <img src="https://web-static.kurobbs.com/adminConfig/27/role_icon/1727419309663.png" alt="Banner">
+    </div>
+  </div>
+  <form id="loginForm">
+    <div class="input-group">
+      <label for="email">邮箱</label>
+      <input type="email" id="email" name="email" required autocomplete="username" placeholder="请输入登录邮箱">
+    </div>
+    <div class="input-group">
+      <label for="password">密码</label>
+      <input type="password" id="password" name="password" required autocomplete="current-password" placeholder="请输入账号密码">
+    </div>
+    <div id="userIdDisplay" class="user-id-display" style="text-align: center; color: yellow;">你的账号: {{ userId }} 请勿使用别人的链接</div>
+    <button type="submit" id="loginBtn" disabled>登录</button>
+  </form>
+
+  <div id="regionPanel" style="display:none;">
+    <div class="region-hint">检测到该账号下有多个区服角色，请选择要绑定的角色：</div>
+    <div id="regionList" class="region-list"></div>
+  </div>
+  <div style="text-align:center;font-size:0.72rem;color:rgba(255,255,255,0.35);margin-top:14px">
+    <a href="https://github.com/eventhorizonsky/WuwaWebTool" style="color:rgba(255,255,255,0.4);text-decoration:none" target="_blank" title="WuwaWebTool on GitHub">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" style="vertical-align:-2px"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+    </a>
+    修改自 <a href="https://github.com/Loping151/XutheringWavesUID" style="color:rgba(255,255,255,0.4)" target="_blank">Loping151/XutheringWavesUID</a>
+  </div>
+</div>
+
+<div id="successModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>登录成功</h2>
+    <p>欢迎回来！</p>
+    <p class="countdown">5秒后自动跳转到首页</p>
+    <button class="redirect-button">立即跳转</button>
+  </div>
+</div>
+
+<script>
+  const emailInput = document.getElementById('email');
+  const passwordInput = document.getElementById('password');
+  const loginBtn = document.getElementById('loginBtn');
+  const loginForm = document.getElementById('loginForm');
+  const regionPanel = document.getElementById('regionPanel');
+  const regionList = document.getElementById('regionList');
+  const modal = document.getElementById('successModal');
+  const closeBtn = modal.querySelector('.close');
+
+  const captchaId = "1f4565ff7acc97b1a2fc97b921743aa4";
+  let captchaInstance = null;
+
+  function refreshLoginButton() {
+    loginBtn.disabled = !(emailInput.value && passwordInput.value);
+  }
+
+  emailInput.addEventListener('input', refreshLoginButton);
+  passwordInput.addEventListener('input', refreshLoginButton);
+
+  initGeetest4({
+    captchaId: captchaId,
+    product: "bind",
+    language: "zh-Hans",
+  }, function (captcha) {
+    captchaInstance = captcha;
+    captcha.onSuccess(function () {
+      const result = captcha.getValidate();
+      if (!result) return;
+      submitLogin({
+        captcha_output: result.captcha_output,
+        gen_time: result.gen_time,
+        lot_number: result.lot_number,
+        pass_token: result.pass_token,
+      });
+    }).onError(function () {
+      alert('验证出错，请重试');
+    });
+  });
+
+  loginForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!captchaInstance) {
+      return alert('滑块组件还在加载，请稍后再试');
+    }
+    captchaInstance.showCaptcha();
+  });
+
+  function submitLogin(captchaResult) {
+    const data = {
+      auth: "{{ auth }}",
+      email: emailInput.value,
+      password: passwordInput.value,
+      captcha: captchaResult,
+    };
+    loginBtn.disabled = true;
+    loginBtn.textContent = '登录中…';
+    $.ajax({
+      url: '{{ server_url }}/waves/l/login',
+      type: 'POST',
+      data: JSON.stringify(data),
+      contentType: 'application/json',
+      success: function (res) {
+        loginBtn.disabled = false;
+        loginBtn.textContent = '登录';
+        if (!res.success) {
+          alert('登录失败' + (res.msg ? '：' + res.msg : '，请重试'));
+          return;
+        }
+        if (res.bound) {
+          showSuccessModal();
+          return;
+        }
+        if (res.regions && res.regions.length > 0) {
+          showRegionPicker(res.regions);
+        } else {
+          alert('未查询到任何角色，请确认账号下是否有鸣潮角色');
+        }
+      },
+      error: function () {
+        loginBtn.disabled = false;
+        loginBtn.textContent = '登录';
+        alert('登录请求失败，请稍后再试');
+      }
+    });
+  }
+
+  function showRegionPicker(regions) {
+    loginForm.style.display = 'none';
+    regionPanel.style.display = 'block';
+    regionList.innerHTML = '';
+    regions.forEach(function (r) {
+      const card = document.createElement('div');
+      card.className = 'region-card';
+      card.innerHTML =
+        '<div class="role-meta">' +
+        '<span class="role-name">' + escapeHtml(r.role_name || '未命名') + '</span>' +
+        '<span class="role-detail">' + escapeHtml(r.region) + ' · UID ' + escapeHtml(r.role_id) + '</span>' +
+        '</div>' +
+        '<span class="lv-badge">Lv.' + (r.level || 0) + '</span>';
+      card.addEventListener('click', function () {
+        bindRegion(r.role_id, r.region, card);
+      });
+      regionList.appendChild(card);
+    });
+  }
+
+  function bindRegion(roleId, region, cardEl) {
+    Array.from(regionList.children).forEach(function (c) { c.style.pointerEvents = 'none'; });
+    cardEl.style.opacity = '0.6';
+    $.ajax({
+      url: '{{ server_url }}/waves/l/bind',
+      type: 'POST',
+      data: JSON.stringify({ auth: "{{ auth }}", role_id: roleId, region: region }),
+      contentType: 'application/json',
+      success: function (res) {
+        if (!res.success) {
+          alert('绑定失败' + (res.msg ? '：' + res.msg : '，请重试'));
+          Array.from(regionList.children).forEach(function (c) { c.style.pointerEvents = 'auto'; });
+          cardEl.style.opacity = '1';
+          return;
+        }
+        showSuccessModal();
+      },
+      error: function () {
+        alert('绑定请求失败，请稍后再试');
+        Array.from(regionList.children).forEach(function (c) { c.style.pointerEvents = 'auto'; });
+        cardEl.style.opacity = '1';
+      }
+    });
+  }
+
+  function showSuccessModal() {
+    const homeHref = 'https://github.com/Loping151/XutheringWavesUID';
+    const countdownElement = modal.querySelector('.countdown');
+    const redirectButton = modal.querySelector('.redirect-button');
+    let countdown = 5;
+
+    modal.classList.add('show');
+    setTimeout(() => {
+      modal.querySelector('.modal-content').style.transform = 'scale(1)';
+      modal.querySelector('.modal-content').style.opacity = '1';
+    }, 10);
+
+    function updateCountdown() {
+      countdownElement.textContent = `${countdown}秒后自动跳转到首页`;
+      if (countdown <= 0) {
+        clearInterval(timer);
+        window.location.href = homeHref;
+      }
+      countdown--;
+    }
+
+    const timer = setInterval(updateCountdown, 1000);
+
+    redirectButton.addEventListener('click', () => {
+      clearInterval(timer);
+      window.location.href = homeHref;
+    });
+
+    modal.querySelector('.close').addEventListener('click', () => {
+      clearInterval(timer);
+      window.location.href = homeHref;
+    });
+  }
+
+  closeBtn.addEventListener('click', closeModal);
+
+  function closeModal() {
+    modal.querySelector('.modal-content').style.transform = 'scale(0.7)';
+    setTimeout(() => {
+      modal.classList.remove('show');
+    }, 300);
+  }
+
+  window.addEventListener('click', function (event) {
+    if (event.target === modal) {
+      closeModal();
+    }
+  });
+
+  function loadBackgroundImage() {
+    const img = new Image();
+    img.onload = function () {
+      document.body.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.4)), url(${img.src})`;
+      document.body.classList.add('bg-loaded');
+    };
+    img.src = 'https://prod-alicdn-community.kurobbs.com/forum/465dcb694966492aba4d4982c47f0e8520240914.jpg';
+  }
+
+  window.addEventListener('load', loadBackgroundImage);
+
+  function escapeHtml(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+</script>
+</body>
+</html>

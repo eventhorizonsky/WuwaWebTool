@@ -2,6 +2,17 @@
 
 鸣潮（Wuthering Waves）角色面板 Web 查看器 — 将 [XutheringWavesUID](https://github.com/Loping151/XutheringWavesUID) 从 GsuidCore 机器人框架中剥离为独立 Web 服务，无需部署 NoneBot/GsuidCore 环境，通过浏览器即可查询角色面板、声骸评分等信息。
 
+## 项目定位
+
+如果你符合以下场景，WuwaWebTool 就是为你准备的：
+
+- **只想用声骸评分** — 不需要机器人的抽卡分析、签到、推送等复杂功能，纯粹为了查看角色面板和声骸评分
+- **不想装机器人框架** — 不想折腾 NoneBot、GsuidCore、gscore 等机器人组件和依赖
+- **不信任第三方中转** — 不愿意将游戏凭证（登录 token）交给第三方机器人服务，数据直连 Kuro 官方 API，部署在你自己的服务器上
+
+如果你只是**不想通过 QQ/ Discord 机器人来查评分**，对其他方面没有顾虑，也可以试试微信小程序 **XWUID**，相当好用。
+
+
 ## 预览
 
 <table>

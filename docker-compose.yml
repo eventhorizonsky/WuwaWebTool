@@ -1,0 +1,17 @@
+services:
+  wuwawebtool:
+    image: ghcr.io/eventhorizonsky/wuwawebtool:latest
+    # build:                          # 如需本地构建，注释 image 并取消注释
+    #   context: .
+    #   dockerfile: backend/Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - wuwa-data:/app/backend/data
+    environment:
+      - PORT=8000
+      - WUWA_DATA_PATH=/app/backend/data
+    restart: unless-stopped
+
+volumes:
+  wuwa-data:

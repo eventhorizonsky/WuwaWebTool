@@ -24,6 +24,7 @@ RUN mkdir -p /app/backend/data/XutheringWavesUID
 ENV WUWA_DATA_PATH=/app/backend/data
 ENV PORT=8000
 
-EXPOSE 8000
+EXPOSE ${PORT:-8000}
 
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Shell form so $PORT is expanded (Railway / Render inject this automatically)
+CMD uvicorn main:app --host 0.0.0.0 --port ${PORT:-8000}

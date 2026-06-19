@@ -27,4 +27,4 @@ ENV PORT=8000
 EXPOSE ${PORT:-8000}
 
 # Shell form so $PORT is expanded (Railway / Render inject this automatically)
-CMD uvicorn main:app --host 0.0.0.0 --port ${PORT:-8000}
+CMD uvicorn main:app --host :: --port ${PORT:-8000} --forwarded-allow-ips '*'

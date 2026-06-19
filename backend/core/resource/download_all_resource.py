@@ -13,33 +13,14 @@ from .RESOURCE_PATH import (
     MAP_PATH,
     BUILD_PATH,
     AVATAR_PATH,
-    CALENDAR_PATH,
     WEAPON_PATH,
     PHANTOM_PATH,
-    ROLE_BG_PATH,
-    MAP_CHALLENGE_PATH,
     MAP_CHAR_PATH,
-    MAP_FORTE_PATH,
-    MATERIAL_PATH,
-    SHARE_BG_PATH,
-    TITLE_BG_PATH,
     MAP_ALIAS_PATH,
     LOCALIZATION_PATH,
     MAP_BUILD_PATH,
     ROLE_PILE_PATH,
-    XFM_GUIDE_PATH,
-    XMU_GUIDE_PATH,
-    KUROBBS_GUIDE_PATH,
-    CHRYSOBERYL_GUIDE_PATH,
     MAP_DETAIL_PATH,
-    WUHEN_GUIDE_PATH,
-    VANZI_GUIDE_PATH,
-    XIAOYANG_GUIDE_PATH,
-    JINLINGZI_GUIDE_PATH,
-    MOEALKYNE_GUIDE_PATH,
-    ROLE_DETAIL_SKILL_PATH,
-    ROLE_DETAIL_CHAINS_PATH,
-    WIKI_CACHE_PATH,
 )
 
 async def check_speed(plugin_name):
@@ -206,11 +187,9 @@ async def download_all_resource(force: bool = False):
             shutil.rmtree(BUILD_PATH, ignore_errors=True)
             shutil.rmtree(MAP_BUILD_PATH, ignore_errors=True)
             shutil.rmtree(MAP_CHAR_PATH, ignore_errors=True)
-            shutil.rmtree(WIKI_CACHE_PATH, ignore_errors=True)
             BUILD_PATH.mkdir(parents=True, exist_ok=True)
             MAP_BUILD_PATH.mkdir(parents=True, exist_ok=True)
             MAP_CHAR_PATH.mkdir(parents=True, exist_ok=True)
-            WIKI_CACHE_PATH.mkdir(parents=True, exist_ok=True)
 
         plugin_name = "XutheringWavesUID"
 
@@ -221,34 +200,19 @@ async def download_all_resource(force: bool = False):
             ("https://ww3.loping151.cn/", "小维3号"),
         ]
 
+        # Only download resources actually used by the web version
+        # (role_bg, share, title_bg, skills, chains, guides, materials, calendar,
+        #  challenge, forte, wiki — not needed without Pillow rendering / bot features)
         resource_map = {
-            "resource/avatar": AVATAR_PATH,
-            "resource/weapon": WEAPON_PATH,
-            "resource/role_pile": ROLE_PILE_PATH,
-            "resource/role_bg": ROLE_BG_PATH,
-            "resource/role_detail/skill": ROLE_DETAIL_SKILL_PATH,
-            "resource/role_detail/chains": ROLE_DETAIL_CHAINS_PATH,
-            "resource/share": SHARE_BG_PATH,
-            "resource/title_bg": TITLE_BG_PATH,
-            "resource/phantom": PHANTOM_PATH,
-            "resource/material": MATERIAL_PATH,
-            "resource/calendar": CALENDAR_PATH,
-            "resource/guide/XMu": XMU_GUIDE_PATH,
-            "resource/guide/Moealkyne": MOEALKYNE_GUIDE_PATH,
-            "resource/guide/JinLingZi": JINLINGZI_GUIDE_PATH,
-            "resource/guide/VanZi": VANZI_GUIDE_PATH,
-            "resource/guide/XiaoYang": XIAOYANG_GUIDE_PATH,
-            "resource/guide/WuHen": WUHEN_GUIDE_PATH,
-            "resource/guide/XFM": XFM_GUIDE_PATH,
-            "resource/guide/KuroBBS": KUROBBS_GUIDE_PATH,
-            "resource/guide/Chrysoberyl": CHRYSOBERYL_GUIDE_PATH,
-            "resource/map": MAP_PATH,
-            "resource/map/character": MAP_CHAR_PATH,
-            "resource/map/detail_json": MAP_DETAIL_PATH,
-            "resource/map/detail_json/challenge": MAP_CHALLENGE_PATH,
-            "resource/map/detail_json/forte": MAP_FORTE_PATH,
-            "resource/map/alias": MAP_ALIAS_PATH,
-            "resource/map/i18n": LOCALIZATION_PATH,
+            "resource/avatar":             AVATAR_PATH,
+            "resource/weapon":             WEAPON_PATH,
+            "resource/role_pile":          ROLE_PILE_PATH,
+            "resource/phantom":            PHANTOM_PATH,
+            "resource/map":                MAP_PATH,
+            "resource/map/character":      MAP_CHAR_PATH,
+            "resource/map/detail_json":    MAP_DETAIL_PATH,
+            "resource/map/alias":          MAP_ALIAS_PATH,
+            "resource/map/i18n":           LOCALIZATION_PATH,
         }
         # Only add build entries if platform is supported
         # Downloaded directly to BUILD_PATH / MAP_BUILD_PATH — the Python import locations

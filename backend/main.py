@@ -123,6 +123,17 @@ app.include_router(auth_router, prefix="/api/login", tags=["Auth"])
 app.include_router(game_data_router, prefix="/api/game", tags=["Game Data"])
 app.include_router(score_router, prefix="/api/score", tags=["Scoring"])
 
+@app.get("/api/health")
+async def health(request: Request):
+    """Health check — responds immediately even during background resource download."""
+    return {
+        "status": "ok",
+        "service": "wuwa-web",
+        "init_ready": request.app.state.init_ready,
+        "init_error": request.app.state.init_error,
+    }
+
+
 # Mount login pages
 app.include_router(login_pages_router, tags=["Login Pages"])
 
@@ -135,16 +146,6 @@ if data_path.exists():
 frontend_path = Path(__file__).resolve().parent.parent / "frontend"
 if frontend_path.exists():
     app.mount("/", StaticFiles(directory=str(frontend_path), html=True), name="frontend")
-
-
-@app.get("/api/health")
-async def health(request: Request):
-    return {
-        "status": "ok",
-        "service": "wuwa-web",
-        "init_ready": request.app.state.init_ready,
-        "init_error": request.app.state.init_error,
-    }
 
 
 if __name__ == "__main__":

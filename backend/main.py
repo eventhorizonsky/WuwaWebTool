@@ -26,10 +26,35 @@ from api.score import router as score_router
 from login_pages import router as login_pages_router
 
 
+def _print_env_config():
+    """Print resolved configuration at startup."""
+    from core.config import AppConfig
+
+    def _cfg(key):
+        return AppConfig.get_config(key).data
+
+    data_path = os.environ.get("WUWA_DATA_PATH", "backend/data")
+    port = os.environ.get("PORT", "8000")
+
+    logger.info("=" * 50)
+    logger.info("[WuwaWeb] 当前配置 (config.json + 环境变量覆盖)")
+    logger.info(f"  PORT                      = {port}")
+    logger.info(f"  WUWA_DATA_PATH            = {data_path}")
+    logger.info(f"  LocalProxyUrl             = {_cfg('LocalProxyUrl') or '(直连)'}")
+    logger.info(f"  NeedProxyFunc             = {_cfg('NeedProxyFunc') or '(无)'}")
+    logger.info(f"  KuroUrlProxyUrl           = {_cfg('KuroUrlProxyUrl') or '(官方API)'}")
+    logger.info(f"  CacheEverything           = {_cfg('CacheEverything')}")
+    logger.info(f"  HideUid                   = {_cfg('HideUid')}")
+    logger.info("=" * 50)
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Startup: download resources and initialize scoring engine."""
     logger.success("[WuwaWeb] 服务启动中...")
+
+    # Print resolved configuration (config.json + env var overrides)
+    _print_env_config()
 
     # Initialize resource directories
     from core.resource.RESOURCE_PATH import init_dir

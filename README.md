@@ -33,7 +33,21 @@ python main.py
 
 启动后访问 `http://localhost:8000`，首次启动会自动从 CDN 下载游戏资源和评分模块。
 
-> 可通过环境变量 `PORT` 指定端口，`WUWA_DATA_PATH` 指定数据目录。
+### 环境变量
+
+| 变量 | 说明 | 默认值 | 示例 |
+| --- | --- | --- | --- |
+| `PORT` | 服务监听端口 | `8000` | `PORT=3000` |
+| `WUWA_DATA_PATH` | 数据目录（资源、缓存、构建文件） | `backend/data` | `WUWA_DATA_PATH=/data/wuwa` |
+| `WUWA_LOCAL_PROXY_URL` | 本地代理地址（国内网络访问 Kuro API） | 空（直连） | `WUWA_LOCAL_PROXY_URL=http://127.0.0.1:7890` |
+| `WUWA_NEED_PROXY_FUNC` | 需要走代理的函数列表（逗号分隔），`all` 表示全部 | 空 | `WUWA_NEED_PROXY_FUNC=all` |
+| `WUWA_KURO_URL_PROXY_URL` | Kuro API 反代地址（直连失败时使用） | 空（用官方 API） | `WUWA_KURO_URL_PROXY_URL=https://proxy.example.com` |
+| `WUWA_CACHE_EVERYTHING` | 是否缓存所有数据 | `false` | `WUWA_CACHE_EVERYTHING=true` |
+| `WUWA_HIDE_UID` | 是否隐藏游戏 UID | `false` | `WUWA_HIDE_UID=true` |
+
+> 所有 `WUWA_*` 变量会覆盖 `config.json` 中的对应配置。Docker 部署时通过 `-e` 或 `environment` 传入即可。
+>
+> 国内用户如果 Kuro API 连接不稳定，建议配置 `WUWA_LOCAL_PROXY_URL` 和 `WUWA_NEED_PROXY_FUNC=all` 通过代理访问。
 
 ### Docker
 
@@ -78,34 +92,41 @@ docker compose up -d
 
 ### 免费平台部署
 
-项目支持一键部署到以下免费托管平台：
+项目可部署到以下托管平台：
 
-**Railway** — 点击下方按钮一键部署：
+**Render**（免费套餐含 1 个 Web 服务）— Fork 本仓库后，在 [Render Dashboard](https://dashboard.render.com) 选择 "Blueprint"，自动读取 `render.yaml` 完成部署。
 
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template?template=https://github.com/eventhorizonsky/WuwaWebTool)
+> Render 免费套餐不含持久磁盘，每次重新部署会重新下载资源（启动时自动完成，增量检查 + CDN 加速）。
 
-> 首次使用需授权 Railway 访问 GitHub。部署会自动识别 `railway.json` 和 `backend/Dockerfile`，完成后分配 `*.up.railway.app` 域名。
->
-> **Railway 数据持久化**：在 Railway Dashboard → 你的服务 → Settings → Volumes，添加挂载路径 `/app/backend/data`，否则每次重新部署都需要重新下载资源。
->
-> 若你 Fork 了仓库，请将按钮链接中的 `eventhorizonsky` 替换为你的 GitHub 用户名。
-
-**Render** — Fork 本仓库后，在 Render Dashboard 选择 "Blueprint" 即可自动读取 `render.yaml` 部署。
-
-> **Render 数据持久化**：免费套餐不含持久磁盘，每次重新部署会重新下载资源（启动时自动完成）。
-
-**其他支持 Docker 的平台**（Fly.io / Koyeb / Northflank 等）：
+**Fly.io**（免费套餐含 3 个 256MB VM + 3GB 持久卷）— 推荐方案：
 
 ```bash
-# Fly.io 示例（含持久卷）
+# 安装 flyctl 后
 fly launch --dockerfile backend/Dockerfile
-fly volumes create wuwa_data --size 1
-# 在 fly.toml 中添加:
-# [mounts]
-#   source = "wuwa_data"
-#   destination = "/app/backend/data"
+fly volumes create wuwa_data --size 1 --region <your-region>
+```
+
+然后在生成的 `fly.toml` 中添加卷挂载：
+
+```toml
+[mounts]
+  source = "wuwa_data"
+  destination = "/app/backend/data"
+```
+
+```bash
 fly deploy
 ```
+
+**Koyeb**（免费套餐含 1 个 Nano 实例）— 在 [Koyeb Dashboard](https://app.koyeb.com) 选择 "Deploy from GitHub"，指定 Dockerfile 路径 `backend/Dockerfile` 即可。
+
+**Docker Compose 自托管**（如果你有一台 VPS 或家庭服务器）：
+
+```bash
+docker compose up -d
+```
+
+> 以上平台的资源下载均为增量模式：首次部署全量下载，后续重启秒级跳过已有文件。持久卷可保留数据避免重复下载。
 
 ## 项目结构
 

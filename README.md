@@ -2,9 +2,22 @@
 
 鸣潮（Wuthering Waves）角色面板 Web 查看器 — 将 [XutheringWavesUID](https://github.com/Loping151/XutheringWavesUID) 从 GsuidCore 机器人框架中剥离为独立 Web 服务，无需部署 NoneBot/GsuidCore 环境，通过浏览器即可查询角色面板、声骸评分等信息。
 
+## 预览
+
+<table>
+<tr>
+<td width="50%"><img src="img/面板列表.png" alt="角色列表页"></td>
+<td width="50%"><img src="img/面板详情.png" alt="角色详情面板"></td>
+</tr>
+<tr>
+<td align="center"><b>角色列表页</b> — 按评分/等级/属性排序，已访问角色自动缓存评分</td>
+<td align="center"><b>角色详情面板</b> — 声骸评分、技能、武器、属性一览</td>
+</tr>
+</table>
+
 ## 功能
 
-- **库街区登录** — 支持手机号+验证码 / 邮箱+密码两种登录方式
+- **库街区登录** — 支持手机号+验证码登录
 - **角色列表** — 查看所有已解锁角色，按评分/等级/属性排序和搜索
 - **角色面板** — 查看角色详情：属性、武器、技能、共鸣链、皮肤
 - **声骸评分** — 每个声骸独立评分（SSS ~ C），副词条权重着色，套装效果展示

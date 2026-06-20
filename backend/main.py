@@ -155,4 +155,19 @@ elif frontend_path.exists():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("main:app", host="::", port=int(os.environ.get("PORT", 8000)), reload=True)
+    import socket
+
+    host = "::"
+    port = int(os.environ.get("PORT", 8000))
+
+    # Create a dual-stack socket that accepts both IPv4 and IPv6
+    sock = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
+    sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    sock.setsockopt(socket.IPPROTO_IPV6, socket.IPV6_V6ONLY, 0)
+    sock.bind((host, port))
+
+    uvicorn.run(
+        "main:app",
+        fd=sock.fileno(),
+        forwarded_allow_ips="*",
+    )

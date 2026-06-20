@@ -38,5 +38,5 @@ ENV PORT=8000
 
 EXPOSE ${PORT:-8000}
 
-# Shell form so $PORT is expanded (Railway / Render inject this automatically)
-CMD uvicorn main:app --host :: --port ${PORT:-8000} --forwarded-allow-ips '*'
+# PORT and other env vars are read by main.py at runtime
+CMD python main.py

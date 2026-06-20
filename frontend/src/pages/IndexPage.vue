@@ -50,7 +50,7 @@ onMounted(async () => {
     ></div>
 
     <!-- Main Layout -->
-    <div v-else class="page-layout" style="flex:1;min-height:0;">
+    <div v-else class="page-layout">
       <Sidebar />
       <MainContent />
     </div>

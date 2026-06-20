@@ -13,6 +13,8 @@
   gap: 16px;
   align-items: flex-start;
   height: 100%;
+  flex: 1;
+  min-height: 0;
 }
 .page-sidebar {
   width: 280px;
@@ -94,6 +96,19 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   position: relative;
   z-index: 100;
+}
+.header-brand-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-shrink: 0;
+}
+.header-actions-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  justify-content: flex-end;
 }
 
 /* ===== User Card (glass-morphism) ===== */
@@ -600,24 +615,188 @@
 }
 
 /* ===== Responsive Layout ===== */
+
+/* --- Header responsive --- */
+@media (max-width: 768px) {
+  .app-header {
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px 20px;
+  }
+  .header-brand-row {
+    width: 100%;
+    justify-content: flex-start;
+  }
+  .header-actions-row {
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: flex-start;
+  }
+  .header-account-select {
+    min-width: 0 !important;
+    flex: 1;
+    max-width: none !important;
+  }
+  .header-title {
+    font-size: 1.35rem;
+  }
+  .header-settings-link {
+    margin-left: auto;
+  }
+}
+@media (max-width: 640px) {
+  .header-attribution {
+    display: none;
+  }
+}
+@media (max-width: 480px) {
+  .app-header {
+    padding: 10px 16px;
+    gap: 10px;
+  }
+  .header-brand-row {
+    gap: 14px;
+  }
+  .header-actions-row {
+    gap: 10px;
+  }
+  .header-title {
+    font-size: 1.2rem;
+    letter-spacing: 0.5px;
+  }
+  .header-login-label {
+    display: none;
+  }
+}
+
+/* --- Index page layout --- */
 @media (max-width: 900px) {
-  .page-layout { flex-direction: column; }
-  .page-sidebar { width: 100%; flex-direction: row; flex-wrap: wrap; gap: 12px; }
+  .page-layout { flex: none; flex-direction: column; align-items: stretch; height: auto; min-height: 0; }
+  .page-sidebar { width: 100%; height: auto; flex-direction: row; flex-wrap: wrap; gap: 12px; flex-shrink: 0; }
   .page-sidebar .user-card { flex: 1; min-width: 260px; flex-direction: row; text-align: left; padding: 16px 20px; }
+  .page-main { flex: none; height: auto; min-height: 0; width: 100%; }
+  .page-main .section-container { flex: none; }
+  .page-main .overflow-y-auto { flex: none; min-height: auto; overflow-y: visible; }
+  .app-container { overflow-y: auto; }
 }
 @media (max-width: 767px) {
-  .page-layout { flex-direction: column; }
-  .page-sidebar { width: 100%; flex-direction: column; }
+  .page-layout { flex: none; flex-direction: column; align-items: stretch; height: auto; min-height: 0; }
+  .page-sidebar { width: 100%; height: auto; flex-direction: column; overflow-x: hidden; flex-shrink: 0; }
+  .page-sidebar .user-card { flex: none; min-width: 0; width: 100%; flex-direction: column; text-align: center; padding: 14px 12px; }
+  .page-sidebar .user-card .avatar-container { width: 48px !important; height: 48px !important; margin-right: 0 !important; margin-bottom: 8px !important; flex-shrink: 0; }
+  .page-main { flex: none; height: auto; min-height: 0; width: 100%; }
+  .page-main .section-container { flex: none; }
+  .page-main .overflow-y-auto { flex: none; min-height: auto; overflow-y: visible; }
+  .app-container { overflow-y: auto; }
+}
+
+/* --- DataOverview grid responsive --- */
+@media (max-width: 640px) {
+  .page-sidebar .base-info-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .page-sidebar .info-item {
+    min-height: 72px;
+    padding: 10px 4px 8px;
+    gap: 4px;
+  }
+  .page-sidebar .info-key {
+    font-size: 13px;
+  }
+  .page-sidebar .info-value {
+    font-size: 26px;
+  }
+}
+@media (max-width: 480px) {
+  .page-sidebar .section-container { padding: 10px 12px; }
+  .page-sidebar .section-title { font-size: 16px; }
+  .page-sidebar .info-item { min-height: 56px; padding: 8px 3px 6px; gap: 2px; }
+  .page-sidebar .info-key { font-size: 11px; }
+  .page-sidebar .info-value { font-size: 22px; }
+}
+@media (max-width: 400px) {
+  .page-sidebar .base-info-grid {
+    grid-template-columns: 1fr;
+  }
+  .page-sidebar .info-item {
+    min-height: 56px;
+    padding: 8px 3px 6px;
+  }
+  .page-sidebar .info-value {
+    font-size: 20px;
+  }
+}
+
+/* --- RoleGrid responsive columns --- */
+.role-grid {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+@media (max-width: 1199px) {
+  .role-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (max-width: 899px) {
+  .role-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 639px) {
+  .role-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 479px) {
+  .role-grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* --- Panel page responsive --- */
+@media (max-width: 1023px) and (min-width: 800px) {
+  .panel-top-row { gap: 6px; }
+  .panel-bottom-row { gap: 6px; }
+  .identity-card { width: 250px; padding: 12px 14px; }
 }
 @media (max-width: 799px) {
   .panel-page { flex-direction: column; height: auto; overflow-y: auto; }
-  .char-list-col { width: 100%; max-height: 130px; flex-direction: row; flex-wrap: wrap; overflow-y: auto; }
+  .char-list-col {
+    width: 100%; max-height: none; flex-shrink: 0;
+    flex-direction: row; flex-wrap: nowrap; gap: 8px;
+    overflow-x: auto; overflow-y: hidden;
+    padding-bottom: 6px;
+  }
+  .char-list-item {
+    flex-direction: column; align-items: center; gap: 4px;
+    flex-shrink: 0; width: 64px; min-height: auto;
+    padding: 8px 6px; text-align: center;
+  }
+  .char-list-item img { width: 44px !important; height: 44px !important; }
+  .char-list-item > .flex-1 { flex: none; width: 100%; }
+  .char-list-item > .flex-1 > .text-base { font-size: 11px; line-height: 1.2; }
+  .char-list-item > .flex-1 > .text-\[13px\] { display: none; }
+  .char-list-item > .font-\[Oswald\] { display: none; }
   .panel-top-row { flex-direction: column; }
   .identity-card { width: 100%; align-self: auto; padding: 10px 14px; }
   .panel-bottom-row { flex-direction: column; }
 }
 @media (max-width: 520px) {
   .echo-grid { grid-template-columns: 1fr; }
+  .char-list-col { gap: 6px; }
+  .char-list-item { width: 56px; padding: 6px 4px; }
+  .char-list-item img { width: 38px !important; height: 38px !important; }
+  .char-list-item > .flex-1 > .text-base { font-size: 10px; }
+  .panel-page { padding: 2px 0; }
+  .identity-card { padding: 8px 10px; }
+}
+
+/* --- Section header on mobile --- */
+@media (max-width: 480px) {
+  .section-header {
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+  }
+  .section-title {
+    font-size: 20px;
+  }
+  .section-container {
+    padding: 12px 14px;
+  }
 }
 
 /* ===== Base (global) ===== */
@@ -644,4 +823,50 @@ body {
   min-height: 0;
   display: flex;
   flex-direction: column;
+}
+
+/* Mobile global overrides */
+@media (max-width: 768px) {
+  .app-container {
+    padding: 4px 8px;
+  }
+}
+
+/* Toast mobile */
+@media (max-width: 480px) {
+  .toast {
+    left: 10px;
+    right: 10px;
+    top: 10px;
+    max-width: none;
+    text-align: center;
+    font-size: 0.85rem;
+    padding: 10px 14px;
+  }
+}
+
+/* --- Sonata tooltip mobile --- */
+@media (max-width: 520px) {
+  .sonata-tooltip {
+    max-width: 85vw;
+    min-width: auto;
+    left: auto;
+    right: 0;
+  }
+}
+
+/* --- RoleCard tap area on mobile --- */
+@media (max-width: 479px) {
+  .role-card {
+    min-height: 100px;
+  }
+}
+
+/* --- Panel stat rows on very narrow screens --- */
+@media (max-width: 360px) {
+  .weapon-row {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
 }

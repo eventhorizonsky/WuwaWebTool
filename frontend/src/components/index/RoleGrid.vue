@@ -13,7 +13,7 @@ defineProps<{
   </div>
   <div
     v-else
-    class="role-grid grid grid-cols-5 max-[1199px]:grid-cols-4 max-[767px]:grid-cols-2 gap-3.5"
+    class="role-grid grid gap-3.5"
   >
     <RoleCard
       v-for="r in characters"

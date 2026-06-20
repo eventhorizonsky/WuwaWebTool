@@ -6,11 +6,11 @@ const charStore = useCharacterStore()
 </script>
 
 <template>
-  <div class="section-container flex flex-col flex-1 min-h-0">
+  <div class="section-container page-main flex flex-col flex-1 min-h-0">
     <div class="section-header">
       <span class="section-title">共鸣者</span>
       <div class="section-deco-line"></div>
-      <div class="flex gap-2 items-center ml-auto flex-shrink-0">
+      <div class="flex gap-2 items-center ml-auto flex-shrink-0 flex-wrap">
         <input
           v-model="charStore.searchQuery"
           type="text"

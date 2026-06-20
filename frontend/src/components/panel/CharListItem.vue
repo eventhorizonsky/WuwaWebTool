@@ -43,7 +43,7 @@ const scoreDisplay = computed(() => {
   >
     <img
       class="w-[42px] h-[42px] rounded-sm bg-black/30 flex-shrink-0 object-cover"
-      :src="getResourceUrl('role_pile', 'role_pile_' + cid + '.png')"
+      :src="getResourceUrl('waves_avatar', 'role_head_' + cid + '.png')"
       alt=""
       @error="(e) => (e.target as HTMLElement).style.display = 'none'"
     />

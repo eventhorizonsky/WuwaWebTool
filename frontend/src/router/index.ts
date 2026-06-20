@@ -12,6 +12,11 @@ const routes = [
     name: 'panel',
     component: () => import('@/pages/PanelPage.vue'),
   },
+  {
+    path: '/settings',
+    name: 'settings',
+    component: () => import('@/pages/SettingsPage.vue'),
+  },
 ]
 
 const router = createRouter({
@@ -47,16 +52,8 @@ router.beforeEach((to, _from) => {
     }
   }
 
-  // Auth guard: both pages require login
-  if (!isLoggedIn()) {
-    // For panel page without auth, let the page itself show a login link
-    if (to.name === 'panel') {
-      return true
-    }
-    // For index page, redirect to login
-    window.location.href = '/login'
-    return false
-  }
+  // Allow all pages — each page handles its own auth check internally.
+  // The header's settings gear (⚙) lets users configure token/did manually.
   return true
 })
 

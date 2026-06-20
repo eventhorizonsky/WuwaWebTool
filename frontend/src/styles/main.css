@@ -1,0 +1,5 @@
+/* WuwaWebTool Main Styles */
+/* Tailwind v4 uses CSS-first config — @import "tailwindcss" is in theme.css */
+
+@import './theme.css';
+@import './custom.css';

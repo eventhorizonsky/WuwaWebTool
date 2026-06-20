@@ -1,0 +1,44 @@
+/* WuwaWebTool — Design Tokens */
+/* Tailwind v4 @theme block for custom properties */
+
+@import "tailwindcss";
+
+@theme {
+  /* Background colors */
+  --color-bg: #0f1115;
+  --color-bg-card: rgba(30, 34, 42, 0.6);
+  --color-bg-card-hover: rgba(40, 45, 55, 0.8);
+
+  /* Gold accent palette */
+  --color-gold: #d4b163;
+  --color-gold-soft: rgba(212, 177, 99, 0.35);
+  --color-gold-dim: rgba(212, 177, 99, 0.15);
+
+  /* Ink / dark surface */
+  --color-ink-1: rgba(20, 22, 26, 0.78);
+  --color-ink-2: rgba(22, 25, 31, 0.82);
+
+  /* Borders and lines */
+  --color-line: rgba(255, 255, 255, 0.08);
+  --color-line-soft: rgba(255, 255, 255, 0.04);
+
+  /* Text colors */
+  --color-text-main: #f3f3f3;
+  --color-text: #e8edf2;
+  --color-text-dim: #9aa0aa;
+
+  /* Accent */
+  --color-accent: #d4b163;
+
+  /* Font families */
+  --font-family-numbers: 'Oswald', sans-serif;
+  --font-family-body: 'Microsoft YaHei', 'PingFang SC', 'Noto Sans CJK SC', sans-serif;
+
+  /* Border radius */
+  --radius-card: 12px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+
+  /* Shadows */
+  --shadow-card: 0 6px 18px -6px rgba(0, 0, 0, 0.5);
+}

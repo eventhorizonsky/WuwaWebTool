@@ -143,8 +143,13 @@ if data_path.exists():
     app.mount("/static/resource", StaticFiles(directory=str(data_path)), name="resource")
 
 # Mount static frontend files (mounted LAST because it catches all / paths)
+# In production, serve the Vite-built dist/ directory.
+# Fall back to raw frontend/ if dist/ doesn't exist (e.g. during development without a build).
+dist_path = Path(__file__).resolve().parent.parent / "frontend" / "dist"
 frontend_path = Path(__file__).resolve().parent.parent / "frontend"
-if frontend_path.exists():
+if dist_path.exists():
+    app.mount("/", StaticFiles(directory=str(dist_path), html=True), name="frontend")
+elif frontend_path.exists():
     app.mount("/", StaticFiles(directory=str(frontend_path), html=True), name="frontend")
 
 

@@ -42,6 +42,11 @@ Thumbs.db
 .DS_Store
 Desktop.ini
 
+# === Frontend build ===
+frontend/dist/
+frontend/node_modules/
+*.tsbuildinfo
+
 # === Environment / Secrets ===
 .env
 .env.local

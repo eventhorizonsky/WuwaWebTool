@@ -49,6 +49,8 @@
 
 ### 本地运行
 
+**后端：**
+
 ```bash
 cd backend
 pip install -r requirements.txt
@@ -56,6 +58,25 @@ python main.py
 ```
 
 启动后访问 `http://localhost:8000`，首次启动会自动从 CDN 下载游戏资源和评分模块。
+
+**前端开发（可选，仅修改前端时需要）：**
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Vite 开发服务器运行在 `http://localhost:5173`，自动代理 API 请求到后端（`localhost:8000`）。支持热模块替换（HMR）。
+
+**生产构建：**
+
+```bash
+cd frontend
+npm run build
+```
+
+构建产物输出到 `frontend/dist/`，后端会自动优先服务该目录下的文件。
 
 ### 环境变量
 

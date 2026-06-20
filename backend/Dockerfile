@@ -1,4 +1,16 @@
 # Build from project root:  docker build -f backend/Dockerfile -t wuwawebtool .
+# ─── Stage 1: Frontend build ───
+FROM node:20-slim AS frontend-builder
+
+WORKDIR /app/frontend
+
+COPY frontend/package.json frontend/package-lock.json ./
+RUN npm ci
+
+COPY frontend/ ./
+RUN npm run build
+
+# ─── Stage 2: Python backend ───
 FROM python:3.12-slim
 
 WORKDIR /app/backend
@@ -15,8 +27,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy backend source
 COPY backend/ .
 
-# Copy frontend static files (served by FastAPI StaticFiles)
-COPY frontend/ /app/frontend
+# Copy built frontend from the builder stage
+COPY --from=frontend-builder /app/frontend/dist /app/frontend/dist
 
 # Data directory for CDN-downloaded resources
 RUN mkdir -p /app/backend/data/XutheringWavesUID
